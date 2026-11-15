@@ -13,9 +13,9 @@ nav{display:flex;flex-wrap:wrap;gap:4px 18px;align-items:center}nav a{color:var(
 .btn.y{background:var(--y);border-color:var(--y);color:var(--n)}.btn.o{background:#fff;color:var(--b)}.btn.s{padding:7px 14px;font-size:.8rem}
 nav .btn{color:#fff;margin:0}
 section,.w{max-width:1080px;margin:auto;padding:56px 5vw}
-.nr{max-width:640px}
+.nr{max-width:680px}
 h1{font-size:clamp(2.1rem,5.4vw,3.5rem);line-height:1.12;color:var(--n);font-weight:800}
-h2{font-size:clamp(1.5rem,3.4vw,2.1rem);color:var(--n);margin-bottom:12px}h3{color:var(--n);margin:6px 0}
+h2{font-size:clamp(1.5rem,3.4vw,2.1rem);color:var(--n);margin-bottom:12px}h3{color:var(--n);margin:14px 0 4px}
 p{margin-bottom:10px}
 .hero{display:grid;grid-template-columns:1.05fr 1fr;gap:34px;align-items:center;min-height:78vh}
 .hero p{font-size:1.08rem;margin:16px 0 22px;max-width:30em}
@@ -34,6 +34,7 @@ p{margin-bottom:10px}
 .c ul{padding-left:18px;margin:10px 0 16px}
 .cta{background:var(--n);color:#fff;text-align:center;border-radius:24px;margin:20px 5vw 50px;padding:50px 20px}.cta h2{color:#fff}
 .note{background:#fff8d6;border-left:5px solid var(--y);padding:12px 16px;border-radius:10px;margin:0 0 20px;font-weight:600;color:var(--n)}
+.note b{word-break:break-all;user-select:all}
 input,select,textarea{width:100%;font:500 .93rem Montserrat,sans-serif;padding:10px 12px;border:2px solid #cfe2f6;border-radius:10px;margin:5px 0 10px;background:#fff}
 input:focus,select:focus,textarea:focus,.btn:focus-visible,a:focus-visible{outline:3px solid var(--y)}
 textarea{min-height:140px}label{font-weight:600;font-size:.85rem;color:var(--n)}
@@ -50,13 +51,14 @@ footer{background:var(--l);text-align:center;padding:26px 5vw;font-size:.88rem}f
 </style></head><body>
 <header><a class="lg" href="#/">Campus<i>Quiz</i></a><nav id="nv"></nav></header>
 <main id="v"></main>
-<footer><a href="#/privacy">Privacy and terms</a><a href="#/contact">Contact</a><p style="margin:8px 0 0">CampusQuiz. Knowledge, connect, excel. Built by Muhadeen.</p></footer>
+<footer><a href="#/privacy">Privacy and terms</a><a href="#/contact">Contact</a><p style="margin:8px 0 0">CampusQuiz. Knowledge, connect, excel.</p></footer>
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import{getAuth,onAuthStateChanged,signInWithEmailAndPassword,createUserWithEmailAndPassword,signOut}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import{getFirestore,doc,getDoc,setDoc,addDoc,updateDoc,collection,query,where,getDocs}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-/* 1. Paste your Firebase web app config here. 2. Paste your admin account ID below (shown on your dashboard after you sign up). */
+/* STEP 1: paste your Firebase web app config here (Project settings > Your apps > Config). */
 const CFG={apiKey:"PASTE_API_KEY",authDomain:"PASTE.firebaseapp.com",projectId:"PASTE",appId:"PASTE"};
+/* STEP 2: after you sign up, copy your account ID from your dashboard and paste it here. */
 const ADMIN_UID="PASTE_ADMIN_UID";
 const PAY={momo:"0509937611",bank:"9181303254",bn:"Zenith Bank",br:"East Legon",nm:"Muhadeen Mohammed"};
 const ok=!CFG.apiKey.startsWith("PASTE");let auth,db,me=null,prof=null,QS=[];
@@ -80,16 +82,55 @@ function home(){v.innerHTML=`<section class="hero"><div><h1>Past questions that 
 <section><h2>Made for campaign season</h2><div class="g"><div class="c rv"><div class="e">🎯</div><h3>Every course</h3><p>One quiz link per course, named after the course.</p></div><div class="c rv"><div class="e">✅</div><h3>Instant feedback</h3><p>Wrong answers show the right one, with your notes if you add them.</p></div><div class="c rv"><div class="e">📊</div><h3>See who took it</h3><p>Track how many students took each quiz and how they scored.</p></div><div class="c rv"><div class="e">🔓</div><h3>No login to take it</h3><p>Name, phone and email are optional for students.</p></div></div></section>
 <div class="cta rv"><h2>Ready to get your name in front of voters?</h2><p>Start with a free quiz today.</p><a class="btn y" href="#/login">Create my quiz</a></div>`;rv()}
 function pricing(){v.innerHTML=`<section><h2>Simple pricing</h2><p class="note">${E(P.note)}</p><div class="g">${plans()}</div><p class="sm" style="margin-top:16px">Pay by mobile money or bank transfer, then submit your transaction ID in your dashboard. Your plan starts once the payment is verified.</p></section>`;rv()}
-function about(){v.innerHTML=`<section class="nr"><h2>About CampusQuiz</h2><p>Every campaign season, student aspirants collect past questions, turn them into PDFs and send them around. It takes hours, and students get no score and no feedback.</p><p>CampusQuiz was built by Muhadeen Mohammed, a student who used Google Forms quizzes in level 100 and saw how much students enjoyed testing themselves. Now an aspirant can paste the questions once and share a single link, with their flyer and policies right at the top.</p><p>CampusQuiz is run by one person, so when you get in touch you reach the person who built it.</p></section>`}
+function about(){v.innerHTML=`<section class="nr"><h2>About CampusQuiz</h2>
+<p>CampusQuiz began with a simple observation: students love testing themselves, and almost nobody makes it easy.</p>
+<h3>Where it started</h3>
+<p>In level 100, our lecturers sent out quizzes on Google Forms. Students actually enjoyed them. They compared scores, argued over answers and went back to read what they got wrong. Then campaign season arrived, and we watched aspirants do the opposite: type out past questions, save them as PDFs and forward them across WhatsApp groups. Students got no score and no feedback, and most of those files were never opened. The effort was real. The result was lost.</p>
+<h3>What we wanted to fix</h3>
+<p>Past questions are something students genuinely want, and an aspirant who shares them gets attention at the right moment. So we asked a simple question: what if one link could do both jobs? The student gets a real quiz with instant answers. The aspirant gets their flyer, policies and contact details in front of every person who takes it.</p>
+<h3>What we believe</h3>
+<p><b>Campaigns should be about ideas.</b> A quiz is a friendly way to introduce yourself and your plans.</p>
+<p><b>Students come first.</b> Taking a quiz needs no account, and name, phone and email are always optional.</p>
+<p><b>Pricing should be fair.</b> A hall or departmental aspirant should be able to afford this as easily as an SRC campaign.</p>
+<h3>Where we are going</h3>
+<p>CampusQuiz is built in Ghana for Ghanaian campuses, and it is still growing. We add features based on what aspirants and students tell us. If something doesn't work for you, <a href="#/contact">tell us</a>. It shapes what we build next.</p></section>`}
 function faq(){const f=[["What is CampusQuiz?","A website where student aspirants turn past questions into online quizzes, with their campaign flyer and policies shown above the questions."],["Do students need an account?","No. Students open your link and start. Name, phone and email are optional."],["How do I add my questions?","Paste them as numbered questions. We detect multiple choice, true or false, fill in the blank and essay questions, and you can change each type before publishing. If your questions are in a PDF, copy the text out or ask an AI tool to turn the PDF into plain text first."],["How many questions can one quiz have?","Up to 50. Longer sets are split into Part 1, Part 2 and so on, so students do not get tired."],["How do I pay?","Send the amount by mobile money or bank transfer, then enter the transaction ID in your dashboard. Your plan starts once the payment is verified."],["Why do prices change?","Prices will increase during massive campaign periods. Subscribing early costs less."],["What do quiz links look like?","They use your course name, or the course code if the name is too long."]];v.innerHTML=`<section class="nr"><h2>FAQs</h2>${f.map(x=>`<details><summary>${x[0]}</summary><p style="margin-top:8px">${x[1]}</p></details>`).join("")}</section>`}
 function contact(){v.innerHTML=`<section class="nr"><h2>Contact us</h2><p>Questions about payment, your quiz or the platform? Reach us any of these ways.</p><p><a class="btn" href="tel:+233509937611">Call us</a><a class="btn y" href="https://wa.me/233509937611" target="_blank" rel="noopener">Chat on WhatsApp</a><a class="btn o" href="mailto:muhadeenmohammed7@gmail.com">Send an email</a></p></section>`}
-function privacy(){v.innerHTML=`<section class="nr"><h2>Privacy Policy</h2><p class="sm">Last updated: November 2026</p><p><b>What we collect.</b> From aspirants: name, email, payment transaction details, and the quizzes and campaign content you add. From students taking a quiz: their answers and score, plus name, phone and email only if they choose to give them.</p><p><b>How we use it.</b> To run your account, verify payments, show quizzes and give aspirants their results. We do not sell personal data.</p><p><b>Where it is stored.</b> On Google Firebase. Quiz pages and campaign content are public to anyone with the link.</p><p><b>Your rights.</b> You can ask us to correct or delete your data through the Contact page. We aim to handle personal data in line with Ghana's Data Protection Act, 2012 (Act 843).</p><h2 style="margin-top:30px">Terms of Use</h2><p><b>Your content.</b> You are responsible for the questions, flyers and policies you upload, and you confirm you have the right to share them. Content that is unlawful, abusive or misleading may be removed.</p><p><b>Payments.</b> Plans are paid by mobile money or bank transfer and start after we verify the payment. Contact us about any payment problem.</p><p><b>Prices.</b> Prices may change, and will increase during massive campaign periods.</p><p><b>Service.</b> We work to keep CampusQuiz available but cannot promise it will never be interrupted. We are not responsible for election outcomes.</p></section>`}
+function privacy(){v.innerHTML=`<section class="nr"><h2>Privacy Policy</h2><p class="sm">Last updated: November 2026</p>
+<p>This policy explains what CampusQuiz collects, why, who can see it, and what you can do about it. We aim to handle personal data in line with Ghana's Data Protection Act, 2012 (Act 843).</p>
+<h3>1. Who this covers</h3><p><b>Aspirants</b> are people who create an account and publish quizzes. <b>Students</b> are people who open a quiz link and take it. Students never need an account.</p>
+<h3>2. What we collect</h3>
+<p><b>From aspirants:</b> your name, email address and password (the password is handled by Google Firebase Authentication, and we cannot read it). We also store your plan and expiry date, the quizzes you publish, and your campaign content: flyer link, policies and contact details.</p>
+<p><b>Payment records:</b> the transaction ID, amount, plan and date you submit. We never see your mobile money PIN or card details, because payment happens outside this site.</p>
+<p><b>From students:</b> your answers and score for each quiz. Name, phone number and email are collected only if you choose to type them in.</p>
+<p><b>Technical data:</b> your browser keeps a login session if you are an aspirant. Google may log basic technical data such as IP address when you use Firebase services.</p>
+<h3>3. Why we use it</h3><p>We use your data to run your account, show your quizzes, grade answers, give aspirants their results, verify payments, prevent misuse and answer your messages. We do not sell personal data, and we do not use it for advertising.</p>
+<h3>4. Who can see what</h3>
+<p><b>Everyone with the link</b> can see a published quiz page, including the flyer, policies and contact details the aspirant added. Do not put anything private there.</p>
+<p><b>Aspirants</b> can see the results of their own quizzes, which include any name, phone or email a student chose to enter. Aspirants must use that information only for their campaign and must not misuse or share it.</p>
+<p><b>CampusQuiz administrators</b> can see accounts, plans and payment records so we can verify payments and give support.</p>
+<h3>5. Where data is stored</h3><p>Data is stored on Google Firebase, which may process it on servers outside Ghana. Google provides security protections, but no online service can promise perfect security.</p>
+<h3>6. How long we keep it</h3><p>We keep account and quiz data while your account is active. Payment records are kept as long as needed for accounting and dispute handling. You can ask us to delete your data at any time.</p>
+<h3>7. Your rights</h3><p>You may ask to see, correct or delete the personal data we hold about you, or withdraw consent for optional details you gave. <a href="#/contact">Contact us</a> and we will respond as quickly as we can. Students can also simply leave the optional fields blank.</p>
+<h3>8. Children</h3><p>CampusQuiz is meant for tertiary students and adults. If you believe someone under 18 has given us personal data, contact us and we will remove it.</p>
+<h3>9. Changes</h3><p>We may update this policy. The date at the top shows the latest version. Continued use means you accept the update.</p>
+<h2 style="margin-top:34px">Terms of Use</h2>
+<h3>Your content</h3><p>You are responsible for the questions, flyers, policies and contact details you publish, and you confirm you have the right to share them. Content that is unlawful, abusive, defamatory or misleading may be removed without notice, and accounts may be suspended.</p>
+<h3>Fair use</h3><p>Do not collect students' details for any purpose other than your campaign. Do not try to access other people's accounts or data, or interfere with the service.</p>
+<h3>Payments and plans</h3><p>Plans are paid by mobile money or bank transfer and start after we verify the payment. Expired plans return to the Free Trial. Please <a href="#/contact">contact us</a> about any payment problem.</p>
+<h3>Prices</h3><p>Prices may change, and will increase during massive campaign periods. A plan you have already paid for keeps its price until it expires.</p>
+<h3>Availability</h3><p>We work to keep CampusQuiz running but cannot promise it will never be interrupted. Quiz grading happens in the student's browser, so we cannot guarantee that scores are tamper-proof.</p>
+<h3>Responsibility</h3><p>CampusQuiz is a tool for sharing quizzes. We are not responsible for election outcomes or for what aspirants publish.</p></section>`}
 function login(){if(me){location.hash="#/dash";return}
 v.innerHTML=`<section class="nr"><h2>Welcome</h2>${ok?"":'<p class="note">The site is not connected to Firebase yet. Add your config in index.html.</p>'}<form id="f"><label>Full name (sign up only)</label><input id="nm"><label>Email</label><input id="em" type="email" required><label>Password</label><input id="pw" type="password" minlength="6" required><p id="er" class="er"></p><button class="btn">Log in</button><button type="button" id="su" class="btn o">Create account</button></form></section>`;
-const go=async s=>{if(!ok)return g("er").textContent="Firebase is not connected yet.";try{if(s){const c=await createUserWithEmailAndPassword(auth,g("em").value,g("pw").value);prof={name:g("nm").value,email:g("em").value,plan:"trial",limit:1};await setDoc(doc(db,"users",c.user.uid),prof);nav();location.hash="#/dash";route()}else await signInWithEmailAndPassword(auth,g("em").value,g("pw").value)}catch(e){g("er").textContent=e.message.replace("Firebase: ","")}};
+const go=async s=>{if(!ok)return g("er").textContent="Firebase is not connected yet.";try{if(s){const c=await createUserWithEmailAndPassword(auth,g("em").value,g("pw").value);prof={name:g("nm").value,email:g("em").value,plan:"trial",limit:1};await setDoc(doc(db,"users",c.user.uid),prof);nav();location.hash="#/dash";route()}else await signInWithEmailAndPassword(auth,g("em").value,g("pw").value)}catch(e){g("er").textContent=e.code=="auth/unauthorized-domain"?"This website address isn't approved yet. In Firebase, open Authentication > Settings > Authorized domains and add it.":e.message.replace("Firebase: ","")}};
 g("f").onsubmit=e=>{e.preventDefault();go(0)};g("su").onclick=()=>{if(g("f").reportValidity())go(1)}}
-function dash(){if(!me){location.hash="#/login";return}const pl=eff();
-v.innerHTML=`<div class="w"><h2>Hi ${E(prof?.name||"there")}</h2><p>Plan: <b>${E(pl.name)}</b>, ${pl.limit?pl.limit+" course"+(pl.limit>1?"s":""):"unlimited courses"}${prof?.until&&pl.id!="trial"?". Active until "+new Date(prof.until).toLocaleDateString():""}</p>${ADMIN_UID.startsWith("PASTE")?`<p class="sm">Your account ID (needed for setup): ${me.uid}</p>`:""}<div id="pay"></div><div id="bld"></div><div id="mine"></div></div>`;payUI();builder();mine()}
+function dash(){if(!me){location.hash="#/login";return}const pl=eff(),setup=ADMIN_UID.startsWith("PASTE");
+v.innerHTML=`<div class="w"><h2>Hi ${E(prof?.name||"there")}</h2><p>Plan: <b>${E(pl.name)}</b>, ${pl.limit?pl.limit+" course"+(pl.limit>1?"s":""):"unlimited courses"}${prof?.until&&pl.id!="trial"?". Active until "+new Date(prof.until).toLocaleDateString():""}</p>
+${setup?`<div class="note"><b style="word-break:normal;user-select:auto">Owner setup: your account ID</b><br><b id="uid">${me.uid}</b><br><button class="btn s" id="cu" style="margin-top:8px">Copy ID</button><span id="cm" class="sm"></span><br><span class="sm">Paste this ID in two places: ADMIN_UID in index.html, and PASTE_ADMIN_UID in your Firestore rules. Publish both, then log out and log in again. Only do this on your own owner account. This box disappears once ADMIN_UID is set.</span></div>`:""}
+<div id="pay"></div><div id="bld"></div><div id="mine"></div></div>`;
+if(g("cu"))g("cu").onclick=async()=>{try{await navigator.clipboard.writeText(me.uid);g("cm").textContent=" Copied."}catch(e){g("cm").textContent=" Select the ID and copy it by hand."}};
+payUI();builder();mine()}
 function payUI(){const paid=P.plans.filter(p=>p.price>0);
 g("pay").innerHTML=`<div class="c"><h3>Pay for a plan</h3><p>Send the amount to either account, then enter the details below. Your plan starts after the payment is verified.</p><p><b>Mobile money:</b> ${PAY.momo}<br><b>Bank:</b> ${PAY.bank}, ${PAY.bn}, ${PAY.br}<br><b>Account name:</b> ${PAY.nm}</p><label>Plan</label><select id="pp">${paid.map(p=>`<option value="${E(p.id)}">${E(p.name)} (GHS ${E(p.price)})</option>`).join("")}</select><label>Transaction ID from your payment message</label><input id="tx"><label>Amount paid (GHS)</label><input id="am" type="number"><button class="btn" id="ps">Submit payment</button><span id="pm" class="sm"></span><div id="pls"></div></div>`;
 g("ps").onclick=async()=>{if(!g("tx").value.trim()||!g("am").value)return g("pm").textContent="Enter the transaction ID and the amount.";try{await addDoc(collection(db,"payments"),{uid:me.uid,email:me.email,plan:g("pp").value,txid:g("tx").value.trim(),amount:+g("am").value,status:"pending",at:Date.now()});g("pm").textContent="Sent. Your plan starts after we verify it.";g("tx").value="";payList()}catch(e){g("pm").textContent=e.message}};payList()}
